@@ -130,4 +130,5 @@ Deals:
   - f058369 ~0.00081 FIL (0.0000000015625 FIL per epoch)
   - f010479 ~0 FIL (0 FIL per epoch)
   - f01247 ~0 FIL (0 FIL per epoch)
-* Successfully made a deal with **only one miner**, the same as for my unverified deal, [`f022352`](https://filfox.info/en/address/f022352). As of writing, still waiting for PreCommit, ~5 hours later. 0 FIL instead of 0.0001458 FIL.
+* Successfully made a deal with the same miner as for my unverified deal, [`f022352`](https://filfox.info/en/address/f022352). As of writing, still waiting for PreCommit, ~5 hours later. 0 FIL instead of 0.0001458 FIL.
+* Also had success with [`f058369`](https://filfox.info/en/address/f058369) which is also waiting for PreCommit. Costing 0.00081599375 FIL ($0.03).
