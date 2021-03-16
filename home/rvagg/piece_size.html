@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Filecoin Deal Size Calculator</title>
+    <style type="text/css">
+      body {
+        color: #444;
+      }
+      #warning {
+        color: #800;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="instructions">
+      Enter a Filecoin payload (input data) size, piece (deal) size or padded (on-sector) size to see equivilant payload, piece and padded sizes.
+      <br>Units can be used for larger numbers, "KB", "MB", "GB" for 1000 multipliers and "KiB", "MiB", "GiB" for 1024 multipliers.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th id="title_payloadSize">Payload Size</th>
+          <th id="title_pieceSize">Piece Size</th>
+          <th id="title_paddedSize">Padded Size</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text" id="sizer_payloadSize" value="3.5 GiB"/></td>
+          <td><input type="text" id="sizer_pieceSize"/></td>
+          <td><input type="text" id="sizer_paddedSize"/></td>
+        </tr>
+        <tr>
+          <td><input type="text" id="sizer_payloadSizeB" disabled/></td>
+          <td><input type="text" id="sizer_pieceSizeB" disabled/></td>
+          <td><input type="text" id="sizer_paddedSizeB" disabled/></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p id="warning"></p>
+    <p id="note"></p>
+
+    <script>
+      const qs = document.querySelector.bind(document)
+      const $warning = qs('#warning')
+      const $note = qs('#note')
+      const $inputs = {
+        payload: qs('#sizer_payloadSize'),
+        piece: qs('#sizer_pieceSize'),
+        padded: qs('#sizer_paddedSize'),
+        payloadB: qs('#sizer_payloadSizeB'),
+        pieceB: qs('#sizer_pieceSizeB'),
+        paddedB: qs('#sizer_paddedSizeB')
+      }
+      const $titles = [qs('#title_payloadSize'), qs('#title_pieceSize')]
+
+      function toBytes (str) {
+        str = str.replace(/[,\s]/g, '').toLowerCase()
+        const is = str.replace(/[kmgtib]+$/i, '')
+        if (!/^[\d\.]+$/.test(is)) {
+          return null
+        }
+        let i = parseFloat(is)
+        const ex = str.replace(/^[\d\.]+/, '')
+        if (ex === 'k' || ex === 'kb') {
+          i *= 1000
+        } else if (ex === 'kib') {
+          i *= 1024
+        } else if (ex === 'm' || ex === 'mb') {
+          i *= 1000 ** 2
+        } else if (ex === 'mib') {
+          i *= 1024 ** 2
+        } else if (ex === 'g' || ex === 'gb') {
+          i *= 1000 ** 3
+        } else if (ex === 'gib') {
+          i *= 1024 ** 3
+        } else if (!Number.isInteger(i)) { // fractional bytes, nope
+          return null
+        }
+        return Math.round(i)
+      }
+
+      const byteSizeUnits = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']
+      function toSizeString (bi) {
+        let i = 0
+        for (; bi > 1024 && i < byteSizeUnits.length; i++) {
+          bi /= 1024
+        }
+        bi = Math.round(bi * 100) / 100
+        return `${bi.toLocaleString()} ${byteSizeUnits[i]}`
+      }
+
+      function onKeyUp (type) {
+        const value = $inputs[type].value
+        const bytes = toBytes(value)
+
+        if (bytes === null) {
+          for (const [typ, $inp] of Object.entries($inputs)) {
+            if (type !== typ) {
+              $inp.value = ''
+            }
+          }
+          return
+        }
+
+        let payload, piece, padded
+        if (type === 'payload') {
+          payload = bytes
+          piece = Math.ceil(bytes * (256/254))
+          padded = 2 ** Math.ceil(Math.log2(piece))
+          if (padded < piece) {
+            padded = 2 ** Math.ceil(Math.log2(piece) + 1)
+          }
+        } else if (type === 'piece') {
+          payload = Math.floor(bytes / (256/254))
+          piece = bytes
+          padded = 2 ** Math.ceil(Math.log2(piece))
+          if (padded < piece) {
+            padded = 2 ** Math.ceil(Math.log2(piece) + 1)
+          }
+        }
+        if (type === 'padded') {
+          payload = Math.floor(bytes / (256/254))
+          piece = bytes
+          padded = bytes
+          $titles.forEach((t) => t.textContent = t.textContent.replace(/^P/, 'Max P'))
+        } else {
+          $titles.forEach((t) => t.textContent = t.textContent.replace(/^Max /, ''))
+        }
+
+        $inputs.payloadB.value = `${payload.toLocaleString()} B`
+        if (type !== 'payload') {
+          $inputs.payload.value = toSizeString(payload)
+        }
+        $inputs.pieceB.value = `${piece.toLocaleString()} B`
+        if (type !== 'piece') {
+          $inputs.piece.value = toSizeString(piece)
+        }
+        $inputs.paddedB.value = `${padded.toLocaleString()} B`
+        if (type !== 'padded') {
+          $inputs.padded.value = toSizeString(padded)
+        } else if (padded !== 2 ** Math.ceil(Math.log2(padded))) {
+          $warning.textContent = `Error: padded size of ${padded.toLocaleString()} B is now a power-of-two and will not be accepted as a deal.`
+          $note.textContent = ''
+          return
+        }
+
+        if (padded > 34359738368) {
+          $warning.textContent = `Warning: payload of ${toSizeString(piece)} will be larger than the default sector size and is unlikely to be accepted by most miners.`
+        } else if (padded < 256) {
+          $warning.textContent = `Warning: recommended minimum deal size is at least 256 B padded.`
+        } else {
+          $warning.textContent = ''
+        }
+        const perc = Math.round(((padded - piece) / padded) * 1000) / 10
+        $note.textContent = `There will be ${toSizeString(padded - piece)} (${perc} %) of wasted zero-padding for this payload.`
+      }
+
+      for (const type of ['payload', 'piece', 'padded']) {
+        $inputs[type].addEventListener('keyup', onKeyUp.bind(null, type))
+      }
+      onKeyUp('payload')
+    </script>
+  </body>
+</html>
