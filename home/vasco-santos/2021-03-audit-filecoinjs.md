@@ -15,10 +15,10 @@ When installing the module via npm latest, I got `"0.0.5-alpha"`even though gith
 
 The roadmap indicates that more general filecoin operations might get implemented in the future.
 
-## Same Features/Modules?
+## Same Features/Modules
 
 1. Exported `WsJsonRpcConnector` and `HttpJsonRpcConnector` seem the same as [@filecoin-shipyard/lotus-client-provider-nodejs](@filecoin-shipyard/lotus-client-provider-nodejs) + [@filecoin-shipyard/lotus-client-provider-browser](@filecoin-shipyard/lotus-client-provider-browser), which abstracts the WS or HTTP, but also supports both.
-  - It is worth pointing out that even in the browser, `node-fetch` seems to be bundled and every time the window existence is checked...
+  - It is worth pointing out that even in the browser, `node-fetch` seems to be bundled and every time the window existence is checked.
 
 ## Experiments
 
@@ -57,6 +57,14 @@ Also found https://filsnap.netlify.app/ which seems interesting to investigate.
 ### [Using a provider to send/sign messages](https://filecoin-shipyard.github.io/filecoin.js/docs/send-message)
 
 The wallet messages documentation is incomplete. Wallet addresses are strings [per typedef](https://github.com/filecoin-shipyard/filecoin.js/blob/520005204628674a8b5bb974d51d7398fa1981e5/dist/filecoin.js.d.ts#L2360). The [examples](https://github.com/filecoin-shipyard/filecoin.js/tree/master/documentation/examples) should help more, even though there are no instructions on how to use them.
+
+### [Examples](https://github.com/filecoin-shipyard/filecoin.js/tree/520005204628674a8b5bb974d51d7398fa1981e5/documentation/examples)
+
+Before running the examples, it is necessary to run `npm run bundle` as the examples statically import the dist folder generated from the webpack bundle.
+
+The 4 examples do not run out of the box as they rely on an outdated API. After updating the API calls according to the changes also made on the docs above, there were still other problems with non existing API calls.
+
+Finally, the examples contain forms to fill in but is complex to understand what is needed, as well as its formats. It would be great that these examples have a documentation journey to help developers go through their usage.
 
 ## Code used
 
@@ -119,6 +127,8 @@ const {
 
 ```
 
-## Fixes upstream
+## Fixes upstream / Issues
 
 - [filecoin-shipyard/filecoin.js#32](https://github.com/filecoin-shipyard/filecoin.js/pull/32)
+- [filecoin-shipyard/filecoin.js#33](https://github.com/filecoin-shipyard/filecoin.js/pull/33)
+- [filecoin-shipyard/filecoin.js#35](https://github.com/filecoin-shipyard/filecoin.js/issues/35)
