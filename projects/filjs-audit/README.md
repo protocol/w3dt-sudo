@@ -7,7 +7,27 @@ This report captures a condensed summary of a brief audit conducted of the curre
 ## Lotus RPC API
 
 ### OpenRPC support
+> JSON based API definition of the lotus json-rpc interfaces that are auto-generated from the code.
 
+The Good: 
+- it is genearted from the go rpc implementation, so is always up to date. 
+- It could be used to generate api docs and (almost complete) typescript and rust clients.
+
+The Bad: 
+- Not yet auto-discoverable or useable with existing tools like https://playground.open-rpc.org (the api definition doc should be discoverable from the api url, but currently isn't, probably due to auth, TBC)
+
+By manually extracting the definition files from the repo you can generate api docs from it:
+https://playground.open-rpc.org/?url=https://gist.githubusercontent.com/olizilla/fc6abf836023b6ee662955695f1cfd21/raw/a4cb5aa3c6fbbc47bcf4b92d2370b8b012a810cb/full.json
+
+API client generation is possible for Typescript and rust, but [it's rough](https://github.com/olizilla/lotus-openrpc-client/blob/main/client/typescript/src/index.ts#L280). This could be improved by adding more detail to the lotus openrpc definition (we should do that) but may also require improving the open-roc/generator project
+
+Notably, we cannot define the file import api with open-rpc, as it only specifies how to define JSON payloads, so we will always need a custom step to create a client or docs that includes the file import api.
+
+It could be used to simplify the custom generation code in https://github.com/filecoin-shipyard/js-lotus-client-schema
+
+Exploration: https://github.com/olizilla/lotus-openrpc-client
+
+Last updated: 31 March 2021 _(auto genereated from rpc code changes)_
 ### lotus-gateway
 
 https://github.com/filecoin-project/lotus/tree/master/cmd/lotus-gateway
