@@ -48,6 +48,12 @@ Last updated: 1 Jul 2020
 
 ## filecoin-shipyard JavaScript Example Apps
 
+Three of the example apps are currently described in the official Filecoin documentation at <https://docs.filecoin.io/build/examples/>. However, they have not been actively maintained and rely on older components that are unlikely to still be operaitonal. In addition, the linked examples focus on small-deals, which are currently not optimal for Filecoin deal-making.
+
+We should consider updating the documentation for these examples to suggest their state as operational against pre-mainnet Filecoin and relying on possibly outdated components. They should also be removed from docs.filecoin.io until we can update them and ensure they demonstrate ideal working conditions for Filecoin.
+
+filecoin-shipyard/filecoin-network-inspector may be the example application most worth focusing on updating since it doesn't rely on small deals and exercises basic parts of the Lotus RPC.
+
 ### https://github.com/filecoin-shipyard/meme-marketplace
 
 NFT example app using Textile Hub
@@ -66,12 +72,6 @@ ERC 721 token smart contract for meme-marketplace example app.
 
 Last updated: 5 Sep 2020
 
-### https://github.com/filecoin-shipyard/NFT-Snapshot-Bot
-
-> Filecoin and ethereum-based twitter thread tokenisation bot.
-
-Last updated: 10 Aug 2020
-
 ### https://github.com/filecoin-shipyard/powergate-pinning-service
 
 Example app pinning service backed by Powergate
@@ -81,6 +81,12 @@ https://docs.filecoin.io/build/examples/simple-pinning-service/overview/
 Example app setup doc points to an 0.0.1-beta.10 powergate-docker ZIP for "Docker+ devnet". Does it still work?
 
 Last updated: 16 Jul 2020
+
+### https://github.com/filecoin-shipyard/NFT-Snapshot-Bot
+
+> Filecoin and ethereum-based twitter thread tokenisation bot.
+
+Last updated: 10 Aug 2020
 
 ### https://github.com/filecoin-shipyard/filecoin-network-inspector
 
