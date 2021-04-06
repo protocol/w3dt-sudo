@@ -10,7 +10,7 @@ This report captures a condensed summary of a brief audit conducted of the curre
 > JSON based API definition of the lotus json-rpc interfaces that are auto-generated from the code.
 
 The Good: 
-- it is genearted from the go rpc implementation, so is always up to date. 
+- it is generated from the go rpc implementation, so is always up to date. 
 - It could be used to generate api docs and (almost complete) typescript and rust clients.
 
 The Bad: 
