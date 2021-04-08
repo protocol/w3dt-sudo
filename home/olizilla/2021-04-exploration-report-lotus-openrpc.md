@@ -22,9 +22,9 @@ Lotus provides OpenRPC compliant, discoverable, JSON based definition of it's v0
 
 - Improve the Lotus OpenRPC with meaningful definitions for all methods, parameters, and return types.
 - Fix issues where [filecoin-project/go-jsonrpc](https://github.com/filecoin-project/go-jsonrpc) does not comply with JSON-RPC 2.0 spec.
-- Use the Lotus OpenRPC definitions in place of custom go-code introspection to generate[js-lotus-client-schema](https://github.com/filecoin-shipyard/js-lotus-client-schema#updating-the-schemas)
+- Use the Lotus OpenRPC definitions in place of custom go-code introspection to generate [js-lotus-client-schema](https://github.com/filecoin-shipyard/js-lotus-client-schema#updating-the-schemas)
 - Use GitHub actions to automatically publish updates to the `js-lotus-client`.
-- Upgrade `api.chain.love` to lotus >= 1.17 and ensure it's OpenRPC discovery method `rpc.discover` is publically readable without an api key, and publish links to the OpenRPC playground and inspector for it, to make the OpenRPC more widely known.
+- Upgrade `api.chain.love` to lotus >= 1.17 and ensure it's OpenRPC discovery method `rpc.discover` is publically readable without an api key, and publish links to the OpenRPC playground and inspector for it, to make the OpenRPC support easy to explore and share.
 - Contribute fixes to docs and Typescript generation back to https://github.com/open-rpc/generator
 
 ## Inspecting the OpenRPC definiton
@@ -135,7 +135,7 @@ A copy of the generated API client is available at: https://github.com/olizilla/
 
 You can [open-rpc/generator] to generate a rust client, but this is untested.
 
-## Use the API docs
+## Use the API client
 
 Make a client instances and ask it for the `ChainHead`
 
