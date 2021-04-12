@@ -119,7 +119,7 @@ A copy of the uncompressed and prettfied openrpc definitons for lotus can be fou
 
 You can preview the generated OpenRPC docs for the Lotus API by passing the files in that gist to the OpenRPC playground. See here for the docs for the Lotus full node api: https://playground.open-rpc.org/?url=https://gist.githubusercontent.com/olizilla/fc6abf836023b6ee662955695f1cfd21/raw/a4cb5aa3c6fbbc47bcf4b92d2370b8b012a810cb/full.json
 
-## Genrate an API client
+## Generate an API client
 
 Get the openrc definitions from the lotus repo, ungzip them, and pass them to the [open-rpc/generator].
 
