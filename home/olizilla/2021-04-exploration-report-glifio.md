@@ -18,6 +18,8 @@
 - Research and develop a blessed filecoin-number js lib, using `@glif/filecoin-number` as a starting point.
 - Add `@glif/filecoin-rpc-client` to the [filecoin docs](https://docs.filecoin.io/build/lotus/api-client-libraries) as the minimalist's api client.
 - Fix `@glif/filecoin-message-confirmer` to verify it is confirming the exact message for the CID provided (AKA avoid the "API makes it looks like double-spends are possible" bug) https://github.com/glifio/modules/issues/65
+- Make the api of `@glif/filecoin-message` easier to guess what it is for https://github.com/glifio/modules/issues/66 and add more info to the README.
+
 
 
 
@@ -107,8 +109,9 @@ A wrapper class for bignumber.js to represent an amount of FIL which may be larg
 
 ## [filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
 
+**TL;DR** normalises the casing of message object keys between lotus and zondax. If you need to talk to both, you are going to want to avoid dealing with the fact that lotus uses upper-camel case `GasFeeCap` and zondax uses all lower case `gasfeecap`.
 
-
+💡 Need to update `toSerializeableType` to be clearer as it really means "format this message for zondax signing tools.
 
 ## [filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
 
