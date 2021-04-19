@@ -21,9 +21,7 @@
 - Make the api of `@glif/filecoin-message` easier to guess what it is for https://github.com/glifio/modules/issues/66 and add more info to the README.
 
 
-
-
-## Key Findings
+## Other Findings
 
 - They've created some very approachable and useful rpc client docs with documenter.getpostman.com see: https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest
   - Grouping the endpoints by concept and giving an intro to each section is helpful.
@@ -127,8 +125,31 @@ https://github.com/glifio/modules/issues/65
 
 ## [filecoin-wallet-provider](https://github.com/glifio/modules/tree/primary/packages/filecoin-wallet-provider)
 
-TODO
+**TL;DR** abstraction layer for filecoin wallet implementations. A good example to explore, but needs more iterations before it's something we should recommend to folks, and it's unlikely to get that attention in the near future.
 
+Aims at being a facade over different filecoin impl providers, to provide a common api and re-use common / computable methods where possible. Ideally a povider impl adds implementations of sensitive functions / primatives while non-senstive / high-level ones are provided by this module.
+
+> ⚠️ Active development. Unstable. Breaking Changes. You get the point.
+> This wallet provider module is inspired as a combination between [MetaMask's keyring controller](https://github.com/MetaMask/KeyringController) and [web3.js](https://github.com/ethereum/web3.js/). It's experimental so it's likely that it will change, drastically.
+
+> At a high level, a simple wallet relies on 2 types of functions: (1) methods that require access to private keys (2) methods that do not require access to private keys
+
+> For example, signMessage and getAccounts are two methods that would require access to a private key, whereas getBalance, getNonce, and sendSignedMessage do not rely on having access to private keys (these are all made up method names).
+
+> This naturally lends itself to an architecture that should allow developers to "plug-and-play" their own modules that handle "private key methods", and not have to worry about re-implementing their own "non-private key methods"
+
+```js
+const config = {
+  apiAddress: process.env.API_ADDRESS // defaults to 'http://127.0.0.1:1234/rpc/v0',
+  token: process.env.LOTUS_JWT_TOKEN, // required
+}
+const filecoin = new Filecoin(new LocalNodeProvider(config), config)
+
+const balance = await filecoin.getBalance(
+  't1jdlfl73voaiblrvn2yfivvn5ifucwwv5f26nfza',
+)
+console.log(balance.toString())
+```
 
 ## [@glifio/react-components](https://github.com/glifio/modules/tree/primary/packages/react-components)
 
