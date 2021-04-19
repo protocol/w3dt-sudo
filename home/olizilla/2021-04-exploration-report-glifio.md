@@ -16,6 +16,7 @@
   - this doesn't appear to be an issue when using the app... the largest single asset is 2MB and the wasm module is 1.6MB
 - Adopt `filecoin-address` in filecoin-project org to better promote it.
 - Research and develop a blessed filecoin-number js lib, using `@glif/filecoin-number` as a starting point.
+- Add `@glif/filecoin-rpc-client` to the [filecoin docs](https://docs.filecoin.io/build/lotus/api-client-libraries) as the minimalist's api client.
 
 
 ## Key Findings
@@ -26,7 +27,7 @@
 - Filecoin docs need to do a better job of explaining finality and how to approach the risk of working with chain data near the head that could be re-orged... the note on these docs implies that blocks >= 900 epochs old is ok, which is true, but it seems like awkward framing. https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest#7c7d1a3f-c5d5-42ed-9b1d-b019d02f159d
 
 
-## glif.io wallet
+## [glif.io wallet](https://github.com/glifio/wallet)
 
 > how re-usable or educational is https://github.com/glifio/wallet as a resource we can recommend? ("Go check out this project if you want to learn how to build a filecoin-backed webapp")
 
@@ -51,9 +52,7 @@ A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f310
 - 👍 lovely docs https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest
 - ❌ methods passed as string arg. No api, no types, no way to discover the api from your IDE.
 - ❌ you've got to parse filecoin responses manually
-- ❌ CID params must be passed as a ipld-json link `{ '/': '<cid string>' }`
-
-Passing CIDs is awkward; you have to format as a ipld-json style link...
+- ❌ CID params are awkward. Must be passed as a ipld-json link `{ '/': '<cid string>' }`
 
 Example setup and usage
 
