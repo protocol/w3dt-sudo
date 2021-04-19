@@ -14,6 +14,8 @@
 - Add a note to the Readme to explain why the site works only in Chrome.
 - Investigate why the static site is 40MB !?
   - this doesn't appear to be an issue when using the app... the largest single asset is 2MB and the wasm module is 1.6MB
+- Adopt `filecoin-address` in filecoin-project org to better promote it.
+- Research and develop a blessed filecoin-number js lib, using `@glif/filecoin-number` as a starting point.
 
 
 ## Key Findings
@@ -38,7 +40,7 @@ It's a production app. It's not directly re-usable and it's not suffciently docu
 It's a lerna repo, commits every month, and the project builds and works out of the box. Each module is explored below
 
 
-## [rpc-client](https://github.com/glifio/modules/tree/primary/packages/filecoin-rpc-client)
+## [@glif/filecoin-rpc-client](https://github.com/glifio/modules/tree/primary/packages/filecoin-rpc-client)
 
 **TL;DR** Too bare-bones for general consumption, but a good example for folks who like it minimal.
 
@@ -47,7 +49,6 @@ A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f310
 
 - 👍 lightweight, low maintenance, never out of date, easy to understand.
 - 👍 lovely docs https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest
-
 - ❌ methods passed as string arg. No api, no types, no way to discover the api from your IDE.
 - ❌ you've got to parse filecoin responses manually
 - ❌ CID params must be passed as a ipld-json link `{ '/': '<cid string>' }`
@@ -85,13 +86,13 @@ async request<A = any>(method: string, ...params: any[]): Promise<A>
 ```
 
 
-## [@glifio/filecoin-address](https://github.com/glifio/modules/tree/primary/packages/filecoin-address)
+## [@glif/filecoin-address](https://github.com/glifio/modules/tree/primary/packages/filecoin-address)
 
 **TL;DR** 👍 use it. Adopt it into the filecoin-project org to give more visibilty.
 
 > This is a JS implementation of the Filecoin address type, inspired by go-address. It can create new address instances and encode addresses, and it takes care of decoding and validating checksums.
 
-## [filecoin-number](https://github.com/glifio/modules/tree/primary/packages/filecoin-number)
+## [@glif/filecoin-number](https://github.com/glifio/modules/tree/primary/packages/filecoin-number)
 
 **TL;DR** Review and potentially replace with a lighter / more ergonimic alternative. 
 
@@ -125,6 +126,7 @@ UI components for the glif.io wallet app, with storybook integration to preview 
 
 It's not actually used in wallet and is slightly behind some identical components that are in https://github.com/glifio/wallet/tree/primary/components/Shared
 see: https://github.com/glifio/wallet/pull/726
+
 
 ## Notes
 
