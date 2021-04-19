@@ -17,6 +17,8 @@
 - Adopt `filecoin-address` in filecoin-project org to better promote it.
 - Research and develop a blessed filecoin-number js lib, using `@glif/filecoin-number` as a starting point.
 - Add `@glif/filecoin-rpc-client` to the [filecoin docs](https://docs.filecoin.io/build/lotus/api-client-libraries) as the minimalist's api client.
+- Fix `@glif/filecoin-message-confirmer` to verify it is confirming the exact message for the CID provided (AKA avoid the "API makes it looks like double-spends are possible" bug) https://github.com/glifio/modules/issues/65
+
 
 
 ## Key Findings
@@ -100,6 +102,7 @@ A wrapper class for bignumber.js to represent an amount of FIL which may be larg
 - We should explore the ideal API for this representing FIL amounts.
 - Consider using a lighter lib for big number support https://github.com/MikeMcl/big.js/wiki
 - Consider just using the built-in BigInt https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
+- Currency conversion should be a seperate utility as many use-cases will not need it.
 
 
 ## [filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
@@ -109,8 +112,15 @@ TODO
 
 ## [filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
 
-TODO
+**TL;DR** A reasonable solution given the current API. We should explore a better API for waiting for a message to succesfully execute.
 
+Poll the StateSearchMsg API method to verify that a specfied message CID appears on-chain with a 0 exit-code reciept. Uses `@glif/filecoin-rpc-client`.
+
+https://github.com/glifio/modules/blob/9b97f31054c20b39b8a75d30727fa33162715dab/packages/filecoin-message-confirmer/src/index.ts#L48-L55
+
+⚠️ May fall afoul of the "api makes it looks like both original and replacement message landed on chain" bug that was the source of much misplaced outrage recently... To verify that a specific messasge lands on chain you have to check the CID in the response matches. Where a message gets replaced, the `StateSearchMsg` method will return the replacing message, with a different CID, to the one requested.
+
+https://github.com/glifio/modules/issues/65
 
 ## [filecoin-wallet-provider](https://github.com/glifio/modules/tree/primary/packages/filecoin-wallet-provider)
 
