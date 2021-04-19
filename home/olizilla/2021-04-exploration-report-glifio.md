@@ -7,8 +7,8 @@
 - Point folks at the wallet as an example of a production app. The wallet app has been audited, gets regular use, and has a clear codebase with tests.
 - Add an architecture over view diagram and docs to the readme. This would go a long way to making wallet an educational resource.
 - Confirm that we're ok with it listing out PL signing addresses in a public repo https://github.com/glifio/wallet/blob/508ba48825246abf998db3f283771dba492a66d1/constants.js#L42-L65
-  - @riba felt it was uncool, as it removes any plausible denyability of those addresses being PLs
-  - @why felt it was nothing to worry about, as they are on the chain and would not be difficult to guess as belonging to PL
+  - it removes any plausible denyability of those addresses being PLs
+  - but they are on the chain and would not be difficult to guess as belonging to PL
 - Have the static site built in CI and published to IPFS.
   - https://github.com/glifio/wallet/issues/513
 - Add a note to the Readme to explain why the site works only in Chrome.
@@ -107,7 +107,7 @@ A wrapper class for bignumber.js to represent an amount of FIL which may be larg
 
 ## [filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
 
-TODO
+
 
 
 ## [filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
