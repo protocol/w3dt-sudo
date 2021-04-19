@@ -105,13 +105,13 @@ A wrapper class for bignumber.js to represent an amount of FIL which may be larg
 - Currency conversion should be a seperate utility as many use-cases will not need it.
 
 
-## [filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
+## [@glif/filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
 
 **TL;DR** normalises the casing of message object keys between lotus and zondax. If you need to talk to both, you are going to want to avoid dealing with the fact that lotus uses upper-camel case `GasFeeCap` and zondax uses all lower case `gasfeecap`.
 
 💡 Need to update `toSerializeableType` to be clearer as it really means "format this message for zondax signing tools.
 
-## [filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
+## [@glif/filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
 
 **TL;DR** A reasonable solution given the current API. We should explore a better API for waiting for a message to succesfully execute.
 
@@ -123,7 +123,7 @@ https://github.com/glifio/modules/blob/9b97f31054c20b39b8a75d30727fa33162715dab/
 
 https://github.com/glifio/modules/issues/65
 
-## [filecoin-wallet-provider](https://github.com/glifio/modules/tree/primary/packages/filecoin-wallet-provider)
+## [@glif/filecoin-wallet-provider](https://github.com/glifio/modules/tree/primary/packages/filecoin-wallet-provider)
 
 **TL;DR** abstraction layer for filecoin wallet implementations. A good example to explore, but needs more iterations before it's something we should recommend to folks, and it's unlikely to get that attention in the near future.
 
@@ -131,11 +131,11 @@ Aims at being a facade over different filecoin impl providers, to provide a comm
 
 > ⚠️ Active development. Unstable. Breaking Changes. You get the point.
 > This wallet provider module is inspired as a combination between [MetaMask's keyring controller](https://github.com/MetaMask/KeyringController) and [web3.js](https://github.com/ethereum/web3.js/). It's experimental so it's likely that it will change, drastically.
-
+>
 > At a high level, a simple wallet relies on 2 types of functions: (1) methods that require access to private keys (2) methods that do not require access to private keys
-
+>
 > For example, signMessage and getAccounts are two methods that would require access to a private key, whereas getBalance, getNonce, and sendSignedMessage do not rely on having access to private keys (these are all made up method names).
-
+>
 > This naturally lends itself to an architecture that should allow developers to "plug-and-play" their own modules that handle "private key methods", and not have to worry about re-implementing their own "non-private key methods"
 
 ```js
@@ -151,7 +151,7 @@ const balance = await filecoin.getBalance(
 console.log(balance.toString())
 ```
 
-## [@glifio/react-components](https://github.com/glifio/modules/tree/primary/packages/react-components)
+## [@glif/react-components](https://github.com/glifio/modules/tree/primary/packages/react-components)
 
 **TL;DR** Not for general consumption. Has some nice UI components, but folks can explore the wallet app to see them, and get the most up to date versions.
 
