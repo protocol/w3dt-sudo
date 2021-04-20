@@ -351,11 +351,23 @@ Last updated: 1 Sep 2019
 
 https://www.glif.io/
 
+_interoperable tools for the Filecoin network_
+
+> Exploration report: https://github.com/protocol/w3dt-sudo/pull/19
+> Last updated 19 April 2021 
+
 #### https://github.com/glifio/wallet
+
+> A lightweight web interface to send and receive Filecoin via your Ledger device
+
+It's a production app. It's not directly re-usable and it's not yet suffciently documented to be an introductory educational resource, but it is useful as a well built and tested example of an app that talks to Lotus, does something useful, and uses a popular UI stack (next.js, react, redux).
+
+- Adding an architecture diagram and an explanation of how the parts fit together would go along way to making wallet an educational resource.
 
 #### https://github.com/glifio/modules/tree/primary/packages
 
-Dependents of https://github.com/glifio/wallet, some are also useful by themselves.
+Dependents of https://github.com/glifio/wallet, some are also useful by themselves. It's a lerna repo, commits every month, and the project builds and works out of the box. Each module is explored below
+
 
 ##### [@glif/filecoin-address](https://github.com/glifio/modules/tree/primary/packages/filecoin-address)
 
