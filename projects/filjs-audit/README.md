@@ -357,17 +357,58 @@ https://www.glif.io/
 
 Dependents of https://github.com/glifio/wallet, some are also useful by themselves.
 
-##### filecoin-address
-##### filecoin-message-confirmer
-##### filecoin-message
-##### filecoin-number
+##### [@glif/filecoin-address](https://github.com/glifio/modules/tree/primary/packages/filecoin-address)
 
-Was https://github.com/glifio/filecoin-number
+> This is a JS implementation of the Filecoin address type, inspired by go-address. It can create new address instances and encode addresses, and it takes care of decoding and validating checksums.
 
-##### filecoin-rpc-client
-##### filecoin-wallet-provider
-##### local-managed-provider
-##### react-components
+👍 use it. Adopt it into the filecoin-project org to give more visibilty.
+
+##### [@glif/filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
+
+Poll the StateSearchMsg API method to verify that a specfied message CID appears on-chain with a 0 exit-code reciept. Uses `@glif/filecoin-rpc-client`.
+
+A reasonable solution given the current API. We should explore a better API for waiting for a message to succesfully execute.
+
+Need to fix https://github.com/glifio/modules/issues/65
+
+##### [@glif/filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
+
+Normalises the casing of message object keys between lotus and zondax. If you need to talk to both, you are going to want to avoid dealing with the fact that lotus uses upper-camel case `GasFeeCap` and zondax uses all lower case `gasfeecap`.
+
+##### [@glif/filecoin-number](https://github.com/glifio/modules/tree/primary/packages/filecoin-number)
+
+A wrapper class for bignumber.js to represent an amount of FIL which may be larger than `Number.MAX_SAFE_INTEGER` (2^53 - 1). Provides conversion from attoFIL to picoFIL to FIL, and a Currency Conversion api which uses a remote service to provide the exchange rate.
+
+Review and potentially replace with a lighter / more ergonimic alternative. 
+
+- We should explore the ideal API for this representing FIL amounts.
+- Consider using a lighter lib for big number support https://github.com/MikeMcl/big.js/wiki
+- Consider just using the built-in BigInt https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/BigInt
+- Currency conversion should be a seperate utility as many use-cases will not need it.
+
+##### [@glif/filecoin-rpc-client](https://github.com/glifio/modules/tree/primary/packages/filecoin-rpc-client)
+
+**TL;DR** Too bare-bones for general consumption, but a good example for folks who like it minimal.
+
+A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f31054c20b39b8a75d30727fa33162715dab/packages/filecoin-rpc-client/src/index.ts
+) around `axios` to create JSON RPC requests.
+
+- 👍 lightweight, low maintenance, never out of date, easy to understand.
+- 👍 lovely docs https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest
+- ❌ methods passed as string arg. No api, no types, no way to discover the api from your IDE.
+- ❌ you've got to parse filecoin responses manually
+- ❌ CID params are awkward. Must be passed as a ipld-json link `{ '/': '<cid string>' }`
+
+
+##### [@glif/filecoin-wallet-provider](https://github.com/glifio/modules/tree/primary/packages/filecoin-wallet-provider)
+
+Abstraction layer for filecoin wallet implementations. A good example to explore, but needs more iterations before it's something we should recommend to folks, and it's unlikely to get that attention in the near future.
+
+Aims at being a facade over different filecoin impl providers, to provide a common api and re-use common / computable methods where possible. Ideally a povider impl adds implementations of sensitive functions / primatives while non-senstive / high-level ones are provided by this module.
+
+##### [@glif/react-components](https://github.com/glifio/modules/tree/primary/packages/react-components)
+
+Not for general consumption. Has some nice UI components, but folks can explore the wallet app to see them, and get the most up to date versions.
 
 ### https://github.com/CoinSummer/lotus-jsonrpc-provider
 
