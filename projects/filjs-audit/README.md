@@ -1,13 +1,13 @@
 # Lotus / Filecoin RPC and JavaScript Library Audit
 
-**2021-04**
+**2021-04/05** by Protocol Labs W3DT Team Sudo
 
-This report captures a condensed summary of a brief audit conducted of the current state of the JavaScript ecosystem surrounding Filecoin and the affordances provided to JavaScript developers via the Lotus RPC API.
+This report captures a condensed summary of a brief audit conducted of the current state of the JavaScript ecosystem surrounding Filecoin and the affordances provided to JavaScript developers via the Lotus RPC API. The audit was conducted to increase familiarity with the current Filecoin JavaScript ecosystem and to inform possible future work in this space to increase value for web3 developers building on Filecoin.
 
-Action items and recommendations can be found below labelled with:
+Action items and recommendations in this report can be identified by the following labels:
 
 * ***(TODO TASK)*** - A small task that is less than project-sized but recommended.
-* ***(POSSIBLE PROJECT)*** - A larger set of work that could be scoped into a project for Protocol Labs' w3dt or a Devgrant.
+* ***(POSSIBLE PROJECT)*** - A larger set of work that could be scoped into a project for Protocol Labs' W3DT or a Devgrant.
 * ***(NEEDS INVESTIGATION)*** - Further investigation work necessary or recommended.
 
 * [Lotus RPC API](#lotus-rpc-api)
@@ -55,7 +55,7 @@ Action items and recommendations can be found below labelled with:
 
 ### General RPC API Findings
 
-... (TODO, link below to wherever we have findings, just the js-lotus-rpc-client investigation maybe? e.g. the auth discrepancies.)
+The majority of investigation into the Lotus RPC API was conducted via the [js-lotus-client](#js-lotus-client) library and the [OpenRPC support](#openrpc-support). Action items relating to Lotus can be found in the sections below.
 
 ### [OpenRPC support](https://github.com/filecoin-project/lotus/tree/master/build/openrpc)
 
@@ -102,6 +102,10 @@ https://github.com/filecoin-project/lotus/tree/master/cmd/lotus-gateway
 
 ## filecoin-shipyard JavaScript libraries
 
+Many of the libraries in filecoin-shipyard were not investigated in depth as they are largely unmaintained and are primarily designed for narrow feature-set and/or example use.
+
+***(TODO TASK)*** Due to the fast-changing nature of the Filecoin protocol and Lotus, as well as the fact that many of these libraries are built using premature assumptions about usability of the network (e.g. deal size), it is likely that any project listed below that has not been updated during 2021 is out of date and should be marked as archived. We should be careful to set expectations to users about what they can expect from these projects.
+
 ### [js-lotus-client](https://github.com/filecoin-shipyard/js-lotus-client)
 
 > The [lotus JS client](https://github.com/filecoin-shipyard/js-lotus-client) is a collection of small JS libraries, which enables developers to interact with Lotus via it’s JSON-RPC API.
@@ -110,12 +114,12 @@ It is decoupled in:
 
 - [Schema](https://github.com/filecoin-shipyard/js-lotus-client-schema): contains schemas for JSON data representation compatible with Lotus JSON-RPC API.
 - Provider libraries ([Node.js](https://github.com/filecoin-shipyard/js-lotus-client-provider-nodejs) and [browser](https://github.com/filecoin-shipyard/js-lotus-client-provider-browser)): inspired by “providers” in the Ethereum ecossystem, a provider links to a running node exposing interface that connects to a Lotus JSON-RPC API endpoint using WebSockets or HTTP.
-- [rpc](https://github.com/filecoin-shipyard/js-lotus-client-rpc): used together with a schema for creating the RPC messages from function parameters.
+- [RPC](https://github.com/filecoin-shipyard/js-lotus-client-rpc): used together with a schema for creating the RPC messages from function parameters.
 
 #### Maturity
 
 The Good:
-- It is generated from the Go RPC implementation, so is always up to date (as long as the generation is re-run).
+- It is generated from the Go RPC implementation, so is always up to date (as long as the generation is re-run). See the two [`go-`](https://github.com/filecoin-shipyard/js-lotus-client-schema) directories in [js-lotus-client-schem](https://github.com/filecoin-shipyard/js-lotus-client-schema) for the custom codegen.
 - It could be used to generate API docs and (almost complete) TypeScript declarations.
 
 The Bad:
@@ -288,6 +292,10 @@ const {
 
 ### [browser-retrieval](https://github.com/filecoin-shipyard/browser-retrieval)
 
+> The Filecoin Browser Retrieval Market is a browser-based p2p network that functions like a CDN for content that was originally retrieved from the Filecoin storage network.
+
+Last updated: 23 Dec 2020
+
 ### https://github.com/filecoin-shipyard/tour-de-lotus
 
 > A slideshow tour of Lotus using the Lotus JS Client
@@ -310,9 +318,9 @@ Last updated: 1 Jul 2020
 
 ### Recommendations
 
-We should consider updating the documentation for these examples to suggest their state as operational against pre-mainnet Filecoin and relying on possibly outdated components. They should also be removed from docs.filecoin.io until we can update them and ensure they demonstrate ideal working conditions for Filecoin.
+We should consider updating the documentation for these examples to suggest their state as operational against pre-mainnet Filecoin and relying on possibly outdated components. ~~They should also be removed from docs.filecoin.io until we can update them and ensure they demonstrate ideal working conditions for Filecoin.~~ (They were removed during the compilation of this report).
 
-filecoin-shipyard/filecoin-network-inspector may be the example application most worth focusing on updating since it doesn't rely on small deals and exercises basic parts of the Lotus RPC.
+***(POSSIBLE PROJECT)*** [filecoin-shipyard/filecoin-network-inspector](https://github.com/filecoin-shipyard/filecoin-network-inspector) may be the example application most worth focusing on updating since it doesn't rely on small deals and exercises basic parts of the Lotus RPC.
 
 ### https://github.com/filecoin-shipyard/meme-marketplace
 
@@ -375,6 +383,8 @@ Last updated: 13 Jul 2020
 
 Last updated: 3 Sep 2020
 
+***(POSSIBLE PROJECT)*** This series of workshops is still valid for the [js-lotus-client](#js-lotus-client) library even though it is now out of date. The lessons are useful for demonstrating the feature-set and may be worth investing in to update and keep maintained.
+
 ### https://github.com/filecoin-shipyard/filecoin-tipset-visualizer
 
 Digital MOB grant project.
@@ -387,7 +397,7 @@ Mostly based on the unmaintained `filecoin-api-client` library. These libraries 
 
 ### Recommendations
 
-These projects should be placed into the GitHub "archived" state, with clear notices in their README about their status as not up-to-date examples. Further development work should not be ruled out on these projects, and a path to re-starting them should be documented in their README (e.g. "Contact ... at ... if you would like to re-start this project and contribute fixes to make it usable").
+***(TODO TASK)*** These projects should be placed into the GitHub "archived" state, with clear notices in their README about their status as not up-to-date examples. Further development work should not be ruled out on these projects, and a path to re-starting them should be documented in their README (e.g. "Contact ... at ... if you would like to re-start this project and contribute fixes to make it usable").
 
 ### https://github.com/filecoin-shipyard/js-filecoin-api-client
 
@@ -502,7 +512,11 @@ Normalises the casing of message object keys between Lotus and Zondax. If you ne
 
 A wrapper class for bignumber.js to represent an amount of FIL which may be larger than `Number.MAX_SAFE_INTEGER` (2^53 - 1). Provides conversion from attoFIL to picoFIL to FIL, and a Currency Conversion api which uses a remote service to provide the exchange rate.
 
+Dealing with FIL numbers and their various fractional forms is a very common operation for dealing with Filecoin so this library, or some incarnation of the basic concepts, has potential to be critical ot the JavaScript Filecoin ecosystem.
+
 ###### Recommendations
+
+***(POSSIBLE PROJECT)***
 
 - Review and potentially replace with a lighter / more ergonimic alternative. 
 - We should explore the ideal API for this representing FIL amounts.
@@ -514,12 +528,11 @@ A wrapper class for bignumber.js to represent an amount of FIL which may be larg
 
 **TL;DR** Too bare-bones for general consumption, but a good example for folks who like it minimal.
 
-A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f31054c20b39b8a75d30727fa33162715dab/packages/filecoin-rpc-client/src/index.ts
-) around `axios` to create JSON RPC requests.
+A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f31054c20b39b8a75d30727fa33162715dab/packages/filecoin-rpc-client/src/index.ts) around `axios` to create JSON RPC requests.
 
 - 👍 lightweight, low maintenance, never out of date, easy to understand.
 - 👍 lovely docs https://documenter.getpostman.com/view/4872192/SWLh5mUd?version=latest
-- ❌ methods passed as string arg. No api, no types, no way to discover the api from your IDE.
+- ❌ methods passed as string arg. No API, no types, no way to discover the API from your IDE.
 - ❌ you've got to parse filecoin responses manually
 - ❌ CID params are awkward. Must be passed as a ipld-json link `{ '/': '<cid string>' }`
 
@@ -527,7 +540,7 @@ A very light [(~70 LoC) wrapper](https://github.com/glifio/modules/blob/9b97f310
 
 Abstraction layer for filecoin wallet implementations. A good example to explore, but needs more iterations before it's something we should recommend to folks, and it's unlikely to get that attention in the near future.
 
-Aims at being a facade over different filecoin impl providers, to provide a common api and re-use common / computable methods where possible. Ideally a povider impl adds implementations of sensitive functions / primatives while non-senstive / high-level ones are provided by this module.
+Aims at being a facade over different filecoin impl providers, to provide a common API and re-use common / computable methods where possible. Ideally a povider impl adds implementations of sensitive functions / primatives while non-senstive / high-level ones are provided by this module.
 
 ##### [@glif/react-components](https://github.com/glifio/modules/tree/primary/packages/react-components)
 
@@ -535,7 +548,7 @@ Not for general consumption. Has some nice UI components, but folks can explore 
 
 #### Others
 
-A full Exploration report: https://github.com/protocol/w3dt-sudo/pull/19
+A full exploration report: https://github.com/protocol/w3dt-sudo/pull/19
 
 ### https://github.com/CoinSummer/lotus-jsonrpc-provider
 
@@ -599,7 +612,7 @@ Last updated: 29 Apr 2021
 12. `addressAsBytes`
 13.  `bytesToAddress`
 
-All available via Rust, Wasm (browser and Node.js) and JSON RPC Server.
+All available via Rust, WASM (browser and Node.js) and JSON RPC Server.
 
 #### Overall Recommendations
 
@@ -611,10 +624,28 @@ All available via Rust, Wasm (browser and Node.js) and JSON RPC Server.
 
 ### https://github.com/mgoelzer/zondax-pch-demo
 
+> demo code to show off the features of zondax/filecoin-signing-tools
+
+Last updated: 9 October 2020
+
 ### https://github.com/filecoin-project/starling
+
+> A command-line interface for simplified, coordinated, decentralized storage on the Filecoin network. This is a work in progress and is not yet production-ready. Use at your own risk.
+
+Last updated: 31 October 2020
 
 ### https://github.com/spacegap/spacegap.github.io
 
+https://spacegap.github.io/#/
+
+Last updated: 9 October 2020
+
 ### https://github.com/trufflesuite/ganache-filecoin-alpha-cli/
 
-Work in progress Ganache flavored Truffle
+> Alpha CLI for Ganache's Filecoin integration. Will be replaced by ganache-cli once integration is stable.
+
+Work in progress Ganache flavored Truffle.
+
+This appears to have been integrated into Truffle as of publication of this report. See https://www.trufflesuite.com/docs/filecoin/ganache/getting-started/get-started-with-the-gui
+
+Last updated: 9 October 2020
