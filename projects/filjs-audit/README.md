@@ -4,23 +4,78 @@
 
 This report captures a condensed summary of a brief audit conducted of the current state of the JavaScript ecosystem surrounding Filecoin and the affordances provided to JavaScript developers via the Lotus RPC API.
 
+Action items and recommendations can be found below labelled with:
+
+* ***(TODO TASK)*** - A small task that is less than project-sized but recommended.
+* ***(POSSIBLE PROJECT)*** - A larger set of work that could be scoped into a project for Protocol Labs' w3dt or a Devgrant.
+* ***(NEEDS INVESTIGATION)*** - Further investigation work necessary or recommended.
+
+* [Lotus RPC API](#lotus-rpc-api)
+  * [OpenRPC support](#openrpc-support)
+  * [lotus-gateway](#lotus-gateway)
+* [filecoin-shipyard JavaScript libraries](#filecoin-shipyard-javascript-libraries)
+  * [js-lotus-client](#js-lotus-client)
+  * [Filecoin.js](#filecoinjs)
+  * [browser-retrieval](#browser-retrieval)
+  * [https://github.com/filecoin-shipyard/tour-de-lotus](#httpsgithubcomfilecoin-shipyardtour-de-lotus)
+  * [https://github.com/filecoin-shipyard/dumbo-drop](#httpsgithubcomfilecoin-shipyarddumbo-drop)
+* [filecoin-shipyard JavaScript Example Apps](#filecoin-shipyard-javascript-example-apps)
+  * [Recommendations](#recommendations-3)
+  * [https://github.com/filecoin-shipyard/meme-marketplace](#httpsgithubcomfilecoin-shipyardmeme-marketplace)
+  * [https://github.com/filecoin-shipyard/meme-nft-token](#httpsgithubcomfilecoin-shipyardmeme-nft-token)
+  * [https://github.com/filecoin-shipyard/powergate-pinning-service](#httpsgithubcomfilecoin-shipyardpowergate-pinning-service)
+  * [https://github.com/filecoin-shipyard/NFT-Snapshot-Bot](#httpsgithubcomfilecoin-shipyardnft-snapshot-bot)
+  * [https://github.com/filecoin-shipyard/filecoin-network-inspector](#httpsgithubcomfilecoin-shipyardfilecoin-network-inspector)
+  * [https://github.com/filecoin-shipyard/js-lotus-client-workshop](#httpsgithubcomfilecoin-shipyardjs-lotus-client-workshop)
+  * [https://github.com/filecoin-shipyard/filecoin-tipset-visualizer](#httpsgithubcomfilecoin-shipyardfilecoin-tipset-visualizer)
+* [filecoin-shipyard JavaScript go-filecoin Projects](#filecoin-shipyard-javascript-go-filecoin-projects)
+  * [Recommendations](#recommendations-4)
+  * [https://github.com/filecoin-shipyard/js-filecoin-api-client](#httpsgithubcomfilecoin-shipyardjs-filecoin-api-client)
+  * [https://github.com/filecoin-shipyard/filecoin-browse-asks](#httpsgithubcomfilecoin-shipyardfilecoin-browse-asks)
+  * [https://github.com/filecoin-shipyard/filecoin-big-head](#httpsgithubcomfilecoin-shipyardfilecoin-big-head)
+  * [https://github.com/filecoin-shipyard/use-filecoin-network-info](#httpsgithubcomfilecoin-shipyarduse-filecoin-network-info)
+  * [https://github.com/filecoin-shipyard/use-filecoin-head](#httpsgithubcomfilecoin-shipyarduse-filecoin-head)
+  * [https://github.com/filecoin-shipyard/use-filecoin-config](#httpsgithubcomfilecoin-shipyarduse-filecoin-config)
+  * [https://github.com/filecoin-shipyard/filecoin-pickaxe](#httpsgithubcomfilecoin-shipyardfilecoin-pickaxe)
+  * [https://github.com/filecoin-shipyard/npm-go-filecoin-dep](#httpsgithubcomfilecoin-shipyardnpm-go-filecoin-dep)
+* [Ecosystem libraries](#ecosystem-libraries)
+  * [Glif.io](#glifio)
+    * [https://github.com/glifio/wallet](#httpsgithubcomglifiowallet)
+    * [https://github.com/glifio/modules/tree/primary/packages](#httpsgithubcomglifiomodulestreeprimarypackages)
+    * [Others](#others)
+  * [https://github.com/CoinSummer/lotus-jsonrpc-provider](#httpsgithubcomcoinsummerlotus-jsonrpc-provider)
+  * [https://github.com/keyko-io/filecoin-verifier-tools](#httpsgithubcomkeyko-iofilecoin-verifier-tools)
+  * [Zondax/filecoin-signing-tools](#zondaxfilecoin-signing-tools)
+  * [https://github.com/mgoelzer/zondax-pch-demo](#httpsgithubcommgoelzerzondax-pch-demo)
+  * [https://github.com/filecoin-project/starling](#httpsgithubcomfilecoin-projectstarling)
+  * [https://github.com/spacegap/spacegap.github.io](#httpsgithubcomspacegapspacegapgithubio)
+  * [https://github.com/trufflesuite/ganache-filecoin-alpha-cli/](#httpsgithubcomtrufflesuiteganache-filecoin-alpha-cli)
+
 ## Lotus RPC API
+
+### General RPC API Findings
+
+... (TODO, link below to wherever we have findings, just the js-lotus-rpc-client investigation maybe? e.g. the auth discrepancies.)
 
 ### [OpenRPC support](https://github.com/filecoin-project/lotus/tree/master/build/openrpc)
 
 > JSON based API definition of the lotus json-rpc interfaces that are auto-generated from the code.
 
+[Developed](https://github.com/filecoin-project/lotus/pull/4711) under a [Devgrant](https://github.com/filecoin-project/devgrants/pull/165) and [merged in Lotus](https://github.com/filecoin-project/lotus/pull/5843) in late March, 2021.
+
 #### Maturity
 
-The Good: 
-- it is generated from the go rpc implementation, so is always up to date.
-- It could be used to generate api docs and (almost complete) typescript and rust clients.
+The Good:
+- It is generated from the Go RPC implementation, so is always up to date.
+- It could be used to generate API docs and (almost complete) TypeScript and Rust clients.
 
 The Bad:
-- Typescript declarations do not have into consideration optional parameters, which makes them required in a typescript project
-- Not yet auto-discoverable or useable with existing tools like https://playground.open-rpc.org (the api definition doc should be discoverable from the api url, but currently isn't, probably due to auth, TBC)
+- TypeScript declarations do not take optional parameters into consideration, which makes all parameters required in a TypeScript project.
+- Not yet auto-discoverable or usable with existing tools like https://playground.open-rpc.org (the API definition doc should be discoverable from the API, but currently isn't, perhaps due to auth, TBC).
 
-Last updated: 31 March 2021 _(auto genereated from rpc code changes)_
+Last updated: 31 March 2021 _(auto genereated from RPC code changes)_
+
+https://github.com/protocol/w3dt-sudo/pull/16#issuecomment-820864315
 
 #### Key Findings
 
@@ -28,14 +83,12 @@ N/A
 
 #### Recommendations
 
-By manually extracting the definition files from the repo you can generate api docs from it:
+* ***(NEEDS INVESTIGATION)*** We should investigate and enable auto-discovery and doc generation from a Lotus endpoint URL. As a workaround, it can be done by manually extracting the definition files, e.g.:
 https://playground.open-rpc.org/?url=https://gist.githubusercontent.com/olizilla/fc6abf836023b6ee662955695f1cfd21/raw/a4cb5aa3c6fbbc47bcf4b92d2370b8b012a810cb/full.json
-
-API client generation is possible for Typescript and rust, but [it's rough](https://github.com/olizilla/lotus-openrpc-client/blob/main/client/typescript/src/index.ts#L280). This could be improved by adding more detail to the lotus openrpc definition (we should do that) but may also require improving the open-roc/generator project
-
-Notably, we cannot define the file import api with open-rpc, as it only specifies how to define JSON payloads, so we will always need a custom step to create a client or docs that includes the file import api.
-
-It could be used to simplify the custom generation code in https://github.com/filecoin-shipyard/js-lotus-client-schema
+* API client generation is possible for TypeScript and Rust, but [it's rough](https://github.com/olizilla/lotus-openrpc-client/blob/main/client/typescript/src/index.ts#L280). This could be improved by adding more detail to the Lotus OpenRPC definition (we should do that) but may also require improving the OpenRPC/generator project.
+  * Notably, we cannot define the Lotus file import API with OpenRPC, as it only specifies how to define JSON payloads and the file import API uses a separate workflow, so we will always need a custom step to create a client or docs that includes the file import API.
+  * Some [input on this has been provided by an OpenRPC maintainer](https://github.com/protocol/w3dt-sudo/pull/16#issuecomment-820864315) in response to our investivation and we may see improvements upstream that unlock more potential here.
+* ***(POSSIBLE PROJECT)*** We should simplify the custom code generation for https://github.com/filecoin-shipyard/js-lotus-client-schema and using a single method would be ideal, since we have OpenRPC it may be the best approach to reduce the number of toolchains we need and use.
 
 #### Experiments
 
@@ -45,6 +98,8 @@ Exploration: https://github.com/olizilla/lotus-openrpc-client
 
 https://github.com/filecoin-project/lotus/tree/master/cmd/lotus-gateway
 
+*We did not cover the lotus-gateway during our investigation but it remains relevant and should be included in any further investigation.*
+
 ## filecoin-shipyard JavaScript libraries
 
 ### [js-lotus-client](https://github.com/filecoin-shipyard/js-lotus-client)
@@ -53,33 +108,36 @@ https://github.com/filecoin-project/lotus/tree/master/cmd/lotus-gateway
 
 It is decoupled in:
 
-- [Schema](https://github.com/filecoin-shipyard/js-lotus-client-schema): contains schemas for JSON data representation compatible with Lotus JSON-RPC API
-- Provider libraries ([node](https://github.com/filecoin-shipyard/js-lotus-client-provider-nodejs) and [browser](https://github.com/filecoin-shipyard/js-lotus-client-provider-browser)): inspired by “providers” in the Ethereum ecossystem, a provider links to a running node exposing interface that connects to a Lotus JSON-RPC API endpoint using WebSockets or HTTP.
-- [rpc](https://github.com/filecoin-shipyard/js-lotus-client-rpc): used together with a schema for creating the RPC messages from function parameters
+- [Schema](https://github.com/filecoin-shipyard/js-lotus-client-schema): contains schemas for JSON data representation compatible with Lotus JSON-RPC API.
+- Provider libraries ([Node.js](https://github.com/filecoin-shipyard/js-lotus-client-provider-nodejs) and [browser](https://github.com/filecoin-shipyard/js-lotus-client-provider-browser)): inspired by “providers” in the Ethereum ecossystem, a provider links to a running node exposing interface that connects to a Lotus JSON-RPC API endpoint using WebSockets or HTTP.
+- [rpc](https://github.com/filecoin-shipyard/js-lotus-client-rpc): used together with a schema for creating the RPC messages from function parameters.
 
 #### Maturity
 
 The Good:
-- it is generated from the go rpc implementation, so is always up to date.
-- It could be used to generate api docs and (almost complete) typescript declarations
+- It is generated from the Go RPC implementation, so is always up to date (as long as the generation is re-run).
+- It could be used to generate API docs and (almost complete) TypeScript declarations.
 
 The Bad:
-- Typescript declarations do not have into consideration optional parameters, which makes them required in a typescript project
-- A large number of unanswered open issues
+- TypeScript declarations do not have into consideration optional parameters, which makes them required in a TypeScript project.
+- A large number of unanswered open issues.
 
 #### Key Findings
 
-- the `client.clientDealSize` seems problematic. The expectation per the naming would be to get the actual pieceSize to provide, but getting: `unexpected deal status while waiting for data request: 11 (StorageDealFailing). Provider message: deal rejected: proposal piece size is invalid: padded piece size must be a power of 2`
-- list miners takes a really long time
-- authentication tokens requirements seem to strict
-  - Some methods, including `listDeals` need write permissions. `ClientStartDeal` needs admin permissions.
-  - The RPC API seems to target users who own a lotus instance, instead of a general user. But, in the client this is not clear at all.
+* The `client.clientDealSize` seems problematic. The expectation per the naming would be to get the actual pieceSize to provide, but getting: `unexpected deal status while waiting for data request: 11 (StorageDealFailing). Provider message: deal rejected: proposal piece size is invalid: padded piece size must be a power of 2`
+* List miners takes a really long time.
+* The different workflow required for the file import API is not clear, especially to those not familiar with Lotus mechanics.
+* Authentication tokens requirements seem too strict.
+  * Some methods, including `listDeals` need write permissions. `ClientStartDeal` needs admin permissions.
+  * The RPC API seems to target users who own a lotus instance, instead of a general user. But, in the client this is not clear at all.
 
 #### Recommendations
 
-- Guided examples where is clear to the user what needs to be changed and what happens behind the scenes
-  - A simple example of creating a deal should exist, including how to import a file using the Provider which is not clear unless one asks someone with knowledge on creating deals
-- We should identify optional parameters and default values in the docs. It is not clear, which parameters are required and optional. Moreover, if we use typescript, we really need to provide all parameters in order to make typescript running.
+* ***(POSSIBLE PROJECT)*** Build guided examples where it is clear to the user what needs to be changed and what happens behind the scenes
+  * A simple example of creating a deal should exist, including how to import a file using the Provider which is not clear unless one asks someone with knowledge on creating deals.
+* ***(POSSIBLE PROJECT)*** We should identify optional parameters and default values in the docs and TypeScript definitions. It is not clear which parameters are required and optional. Moreover, TypeScript use is impractical without this clarification.
+* ***(POSSIBLE PROJECT)*** Custom codegen could be completely (or mostly?) replaced with OpenRPC codegen. See above.
+* ***(POSSIBLE PROJECT)*** Codegen in https://github.com/filecoin-shipyard/js-lotus-client-schema should be performed on each major Lotus release, with a new npm version published. A GitHub action to PR changes seems like a reasonable step, but it also needs a clear *owner* to ensure versions get published.
 
 #### Experiments
 
@@ -92,25 +150,30 @@ Explorations:
 
 > A JavaScript (and TypeScript) library for interacting with the Filecoin's Lotus node, with support for external signers.
 
+This work was funded by a Devgrant, intending to be familiar to [ethers.js](https://github.com/ethers-io/ethers.js/) users, but development was paused due to lack of adoption and some difficulties with the message handling/signing workflow.
+
 #### Maturity
 
 The current state of the library specified in the README is `ALPHA: things will not work or work incorectly, will break and the API will change! ⚠️`
 
-Taking into account the activity of the repo, it has not been in actively development since November 2020 (Lotus version: ?), relying on an outdated fork of `filecoin-signing-tools-js`. There is a [Roadmap Issue](https://github.com/filecoin-shipyard/filecoin.js/issues/1) where we can see that general Filecoin operations are no yet implemented.
+Taking into account the activity of the repo, it has not been in actively development since November 2020, relying on an outdated fork of `filecoin-signing-tools-js`. There is a [Roadmap Issue](https://github.com/filecoin-shipyard/filecoin.js/issues/1) where we can see that general Filecoin operations are no yet implemented.
 
-When installing the module via npm latest, I got `"0.0.5-alpha"`even though github master `package.json` shows `"0.0.3-alpha"`.
+The latest version in npm is `"0.0.5-alpha"`, however the `package.json` in GitHub shows `"0.0.3-alpha"`, so there may be more recent code not pushed to GitHub.
 
 Last updated: 17 Nov 2020
 
 #### Key Findings
 
 - Supports Wallet Mnemonics
-- The roadmap indicates that more general filecoin operations might get implemented in the future.
+- The roadmap indicates that more general Filecoin operations might get implemented in the future.
 - Tests are failing to run, even by trying to run a shell script as done in CI. In the latest commits, CI did also not run.
 
 #### Recommendations
 
-- Look into what is happening with the versioning
+* ***(NEEDS INVESTIGATION)*** Look into what is happening with the versioning and whether there's code not pushed to GitHub.
+
+_TODO: are these recommendations?_
+
 - Exported `WsJsonRpcConnector` and `HttpJsonRpcConnector` seem the same as [@filecoin-shipyard/lotus-client-provider-nodejs](@filecoin-shipyard/lotus-client-provider-nodejs) + [@filecoin-shipyard/lotus-client-provider-browser](@filecoin-shipyard/lotus-client-provider-browser), which abstracts the WS or HTTP, but also supports both.
   - It is worth pointing out that even in the browser, `node-fetch` seems to be bundled and every time the window existence is checked.
 - Interact with traditional wallet providers like metamask (could not get it up and running)
@@ -144,9 +207,9 @@ This seems one of the most interesting providers, as it should aim to provide th
 
 After attempting to use this example (fix same issues as before), it ran but no wallet address was returned, despite the promise being resolved. Trying to go to the [alternative route](https://filecoin-shipyard.github.io/filecoin.js/docs/setup-metamask-provider#setup-metamask-provider) of installing locally Filecoin Metamask Snap, there is basically no documentation. After downloading the browser release, there was no documentation on how to actually use it.
 
-Also found https://filsnap.netlify.app/ which seems interesting to investigate.
+https://filsnap.netlify.app/ is a newer Metamask Filecoin plugin, which may be worth including in any future iteration of this report.
 
-5. [Using a provider to send/sign messages](https://filecoin-shipyard.github.io/filecoin.js/docs/send-message)
+1. [Using a provider to send/sign messages](https://filecoin-shipyard.github.io/filecoin.js/docs/send-message)
 
 The wallet messages documentation is incomplete. Wallet addresses are strings [per typedef](https://github.com/filecoin-shipyard/filecoin.js/blob/520005204628674a8b5bb974d51d7398fa1981e5/dist/filecoin.js.d.ts#L2360).
 
@@ -222,7 +285,6 @@ const {
 ```
 
 </details>
-
 
 ### [browser-retrieval](https://github.com/filecoin-shipyard/browser-retrieval)
 
@@ -409,7 +471,7 @@ It's a production app. It's not directly re-usable and it's not yet suffciently 
 
 ##### Recommendations
 
-- Adding an architecture diagram and an explanation of how the parts fit together would go along way to making wallet an educational resource.
+* ***(POSSIBLE PROJECT)*** Adding an architecture diagram and an explanation of how the parts fit together would go along way to making wallet an educational resource for web3 app developers.
 
 #### https://github.com/glifio/modules/tree/primary/packages
 
@@ -419,21 +481,22 @@ It's a production app. It's not directly re-usable and it's not yet suffciently 
 
 > This is a JS implementation of the Filecoin address type, inspired by go-address. It can create new address instances and encode addresses, and it takes care of decoding and validating checksums.
 
-👍 use it. Adopt it into the filecoin-project org to give more visibilty.
+This is a good library, and serves an important purpose. We could consider adopting it into the filecoin-project org to give more visibilty, or at a minimum enhancing our documentation to make it obvious for web3 app developers ***(TODO TASK)***.
 
 ##### [@glif/filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer)
 
 Poll the StateSearchMsg API method to verify that a specfied message CID appears on-chain with a 0 exit-code reciept. Uses `@glif/filecoin-rpc-client`.
 
-A reasonable solution given the current API. We should explore a better API for waiting for a message to succesfully execute.
+A reasonable solution given the current API. 
 
 ###### Recommendations
 
-- Need to fix https://github.com/glifio/modules/issues/65
+* ***(POSSIBLE PROJECT)*** We should explore a better API for waiting for a message to succesfully execute.
+- ***(TODO TASK)*** Need to fix https://github.com/glifio/modules/issues/65 ("filecoin-message-confirmer should verify the response message CID")
 
 ##### [@glif/filecoin-message](https://github.com/glifio/modules/tree/primary/packages/filecoin-message)
 
-Normalises the casing of message object keys between lotus and zondax. If you need to talk to both, you are going to want to avoid dealing with the fact that lotus uses upper-camel case `GasFeeCap` and zondax uses all lower case `gasfeecap`.
+Normalises the casing of message object keys between Lotus and Zondax. If you need to talk to both, you are going to want to avoid dealing with the fact that lotus uses upper-camel case `GasFeeCap` and zondax uses all lower case `gasfeecap`.
 
 ##### [@glif/filecoin-number](https://github.com/glifio/modules/tree/primary/packages/filecoin-number)
 
