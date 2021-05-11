@@ -174,19 +174,21 @@ Last updated: 17 Nov 2020
 
 #### Recommendations
 
-* ***(NEEDS INVESTIGATION)*** Look into what is happening with the versioning and whether there's code not pushed to GitHub.
+***(NEEDS INVESTIGATION)*** Look into what is happening with the versioning and whether there's code not pushed to GitHub.
 
-_TODO: are these recommendations?_
+***(POSSIBLE PROJECT)*** Consider re-starting this work to make a more complete JavaScript API library for dapp developers. Needs planning and scoping.
 
-- Exported `WsJsonRpcConnector` and `HttpJsonRpcConnector` seem the same as [@filecoin-shipyard/lotus-client-provider-nodejs](@filecoin-shipyard/lotus-client-provider-nodejs) + [@filecoin-shipyard/lotus-client-provider-browser](@filecoin-shipyard/lotus-client-provider-browser), which abstracts the WS or HTTP, but also supports both.
-  - We should converge the providers/connectors into a single library
-- an isomorphic fetch implementation should be used
-- Interact with traditional wallet providers like metamask (could not get it up and running)
-  - We should work towards a frictionless experience and/or a general improvement on the documentation for this core functionality provided
+Minor items arising out of investigation that could be followed up within a project:
+
+* Exported `WsJsonRpcConnector` and `HttpJsonRpcConnector` seem the same as [@filecoin-shipyard/lotus-client-provider-nodejs](https://github.com/filecoin-shipyard/js-lotus-client-provider-nodejs) + [@filecoin-shipyard/lotus-client-provider-browser]([@filecoin-shipyard/lotus-client-provider](https://github.com/filecoin-shipyard/js-lotus-client-provider)-browser), which abstracts the WS or HTTP, but also supports both.
+  * We should converge the providers/connectors into a single library
+* An isomorphic fetch implementation should be used
+* Interact with traditional wallet providers like metamask (could not get it up and running)
+  * We should work towards a frictionless experience and/or a general improvement on the documentation for this core functionality provided
 
 #### Experiments
 
-_TODO: link once merged https://github.com/protocol/w3dt-sudo/pull/24 _
+See https://github.com/protocol/w3dt-sudo/blob/master/home/vasco-santos/2021-03-audit-filecoinjs.md for an in-depth exploration and experiments in attempting to use Filecoin.js
 
 ### [browser-retrieval](https://github.com/filecoin-shipyard/browser-retrieval)
 
