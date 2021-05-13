@@ -481,38 +481,7 @@ Last updated: 29 Apr 2021
 - Per [https://github.com/Zondax/filecoin-signing-tools/issues/373](https://github.com/Zondax/filecoin-signing-tools/issues/373), [Zondax/filecoin-signing-tools#358](https://github.com/Zondax/filecoin-signing-tools/issues/358), [Zondax/filecoin-signing-tools#356](https://github.com/Zondax/filecoin-signing-tools/issues/356) and [Zondax/filecoin-signing-tools#352](https://github.com/Zondax/filecoin-signing-tools/issues/352), there are a few issues with bundlers and browsers.
 - Per [Zondax/filecoin-signing-tools#368](https://github.com/Zondax/filecoin-signing-tools/issues/368) and [Zondax/filecoin-signing-tools#343](https://github.com/Zondax/filecoin-signing-tools/issues/343), there are several issues with WASM.  The browser WASM example uses the pure JS implementation and an issue tracking how wasm is being loaded in the browser. Could not find any project leveraging the WASM library. Is it working?
 
-##### Libraries
-
-1. Rust Native Library
-  - Secp256k1
-  - BLS
-  - Filecoin transactions (CBOR <> JSON serialization)
-  - Multisig (in progress)
-2. WASM Library (Browser and Node.js)
-  - Secp256k1
-  - BLS
-  - Filecoin transactions (CBOR <> JSON serialization)
-  - Multisig (in progress)
-3. JSON RPC Server
-  - Exposes most of the functions available in the signing library
-
-##### Cryptographic primitives
-
-1. `generateMnemonic`
-2. `keyDerive`
-3. `keyDeriveFromSeed`
-4. `keyRecover`
-5. `transactionSerialize`
-6. `transactionSerializeRaw`
-7. `transactionParse`
-8. `transactionSign`
-9. `transactionSignLotus`
-10. `transactionSignRaw`
-11. `verifySignature`
-12. `addressAsBytes`
-13.  `bytesToAddress`
-
-All available via Rust, WASM (browser and Node.js) and JSON RPC Server.
+It includes libraries in `Rust Native Library`, `WASM Library` and `JSON RPC` with the main cryptographic primitives to use in filecoin. More details in the [Exploration Report](https://github.com/protocol/w3dt-sudo/blob/master/home/vasco-santos/2021-04-exploration-report-fil-signing-tools.md)
 
 #### Overall Recommendations
 
