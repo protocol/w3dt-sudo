@@ -67,6 +67,7 @@ Action items and recommendations in this report can be identified by the followi
   * We need to invest in keep this updated, perhaps automatic releases and switch to OpenRPC codegen.
   * File import API poses usability challenges and is unclear to users.
   * Building out a suite of clear and practical example applications would be an excellent investment.
+  * Optional parameters are not identified, causing problems for typed language clients.
 
 **[Filecoin.js](https://github.com/filecoin-shipyard/filecoin.js)** is a grant-funded attempt at a higher-level, wallet-focused API aiming toward users familiar with Ethers.js. It is very early-stage and has been put on hold due to lack of adoption, interest and practical hurdles regarding the wallet & API interaction.
   * This project should not be used as it is and we need to make this clear in documentation.
