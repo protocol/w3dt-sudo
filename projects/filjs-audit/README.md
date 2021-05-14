@@ -61,7 +61,7 @@ Action items and recommendations in this report can be identified by the followi
   * Optional parameters are not identified, causing problems for typed language clients.
   * Lotus auth currently prevents auto doc and code generation from a live node.
   * The file import API is separate and difficult to integrate, so we have two APIs.
-  * We should then js-lotus-client into an OpenRPC consumer to dogfood this and simplify our codegen paths.
+  * We should turn the js-lotus-client into an OpenRPC consumer to dogfood this and simplify our codegen paths.
 
 **[js-lotus-client](https://github.com/filecoin-shipyard/js-lotus-client/)** is the most mature JavaScript API client for Lotus and can be used in Node.js and the browser. It uses a custom codegen solution to extract the API, docs and TypeScript definitions.
   * We need to invest in keep this updated, perhaps automatic releases and switch to OpenRPC codegen.
