@@ -1,6 +1,6 @@
 # Lotus / Filecoin RPC and JavaScript Library Audit
 
-**2021-04/05** by Protocol Labs W3DT Team Sudo
+**2021-04/05** by [Protocol Labs W3DT Team Sudo](https://github.com/protocol/w3dt-sudo).
 
 This report captures a condensed summary of a brief audit conducted of the current state of the JavaScript ecosystem surrounding Filecoin and the affordances provided to JavaScript developers via the Lotus RPC API. The audit was conducted to increase familiarity with the current Filecoin JavaScript ecosystem and to inform possible future work in this space to increase value for web3 developers building on Filecoin.
 
@@ -10,7 +10,12 @@ Action items and recommendations in this report can be identified by the followi
 * ***(POSSIBLE PROJECT)*** - A larger set of work that could be scoped into a project for Protocol Labs' W3DT or a Devgrant.
 * ***(NEEDS INVESTIGATION)*** - Further investigation work necessary or recommended.
 
+## Contents
+
+* [Contents](#contents)
+* [High-level Summary of Findings](#high-level-summary-of-findings)
 * [Lotus RPC API](#lotus-rpc-api)
+  * [General RPC API Findings](#general-rpc-api-findings)
   * [OpenRPC support](#openrpc-support)
   * [lotus-gateway](#lotus-gateway)
 * [filecoin-shipyard JavaScript libraries](#filecoin-shipyard-javascript-libraries)
@@ -20,7 +25,7 @@ Action items and recommendations in this report can be identified by the followi
   * [https://github.com/filecoin-shipyard/tour-de-lotus](#httpsgithubcomfilecoin-shipyardtour-de-lotus)
   * [https://github.com/filecoin-shipyard/dumbo-drop](#httpsgithubcomfilecoin-shipyarddumbo-drop)
 * [filecoin-shipyard JavaScript Example Apps](#filecoin-shipyard-javascript-example-apps)
-  * [Recommendations](#recommendations-3)
+  * [Recommendations](#recommendations)
   * [https://github.com/filecoin-shipyard/meme-marketplace](#httpsgithubcomfilecoin-shipyardmeme-marketplace)
   * [https://github.com/filecoin-shipyard/meme-nft-token](#httpsgithubcomfilecoin-shipyardmeme-nft-token)
   * [https://github.com/filecoin-shipyard/powergate-pinning-service](#httpsgithubcomfilecoin-shipyardpowergate-pinning-service)
@@ -29,7 +34,7 @@ Action items and recommendations in this report can be identified by the followi
   * [https://github.com/filecoin-shipyard/js-lotus-client-workshop](#httpsgithubcomfilecoin-shipyardjs-lotus-client-workshop)
   * [https://github.com/filecoin-shipyard/filecoin-tipset-visualizer](#httpsgithubcomfilecoin-shipyardfilecoin-tipset-visualizer)
 * [filecoin-shipyard JavaScript go-filecoin Projects](#filecoin-shipyard-javascript-go-filecoin-projects)
-  * [Recommendations](#recommendations-4)
+  * [Recommendations](#recommendations-1)
   * [https://github.com/filecoin-shipyard/js-filecoin-api-client](#httpsgithubcomfilecoin-shipyardjs-filecoin-api-client)
   * [https://github.com/filecoin-shipyard/filecoin-browse-asks](#httpsgithubcomfilecoin-shipyardfilecoin-browse-asks)
   * [https://github.com/filecoin-shipyard/filecoin-big-head](#httpsgithubcomfilecoin-shipyardfilecoin-big-head)
@@ -40,9 +45,6 @@ Action items and recommendations in this report can be identified by the followi
   * [https://github.com/filecoin-shipyard/npm-go-filecoin-dep](#httpsgithubcomfilecoin-shipyardnpm-go-filecoin-dep)
 * [Ecosystem libraries](#ecosystem-libraries)
   * [Glif.io](#glifio)
-    * [https://github.com/glifio/wallet](#httpsgithubcomglifiowallet)
-    * [https://github.com/glifio/modules/tree/primary/packages](#httpsgithubcomglifiomodulestreeprimarypackages)
-    * [Others](#others)
   * [https://github.com/CoinSummer/lotus-jsonrpc-provider](#httpsgithubcomcoinsummerlotus-jsonrpc-provider)
   * [https://github.com/keyko-io/filecoin-verifier-tools](#httpsgithubcomkeyko-iofilecoin-verifier-tools)
   * [Zondax/filecoin-signing-tools](#zondaxfilecoin-signing-tools)
@@ -50,6 +52,46 @@ Action items and recommendations in this report can be identified by the followi
   * [https://github.com/filecoin-project/starling](#httpsgithubcomfilecoin-projectstarling)
   * [https://github.com/spacegap/spacegap.github.io](#httpsgithubcomspacegapspacegapgithubio)
   * [https://github.com/trufflesuite/ganache-filecoin-alpha-cli/](#httpsgithubcomtrufflesuiteganache-filecoin-alpha-cli)
+
+
+## High-level Summary of Findings
+
+**[OpenRPC support](https://github.com/filecoin-project/lotus/tree/master/build/openrpc)** support was grant-funded and landed in Lotus. It should allow clearer and auto-generated documentation of the API and auto-generation of clients in a variety of languages. Current status: it's basic and needs more work to be useful.
+  * Code documentation extracted for API docs could be greatly improved.
+  * Optional parameters are not identified, causing problems for typed language clients.
+  * Lotus auth currently prevents auto doc and code generation from a live node.
+  * The file import API is separate and difficult to integrate, so we have two APIs.
+  * We should then js-lotus-client into an OpenRPC consumer to dogfood this and simplify our codegen paths.
+
+**[js-lotus-client](https://github.com/filecoin-shipyard/js-lotus-client/)** is the most mature JavaScript API client for Lotus and can be used in Node.js and the browser. It uses a custom codegen solution to extract the API, docs and TypeScript definitions.
+  * We need to invest in keep this updated, perhaps automatic releases and switch to OpenRPC codegen.
+  * File import API poses usability challenges and is unclear to users.
+  * Building out a suite of clear and practical example applications would be an excellent investment.
+
+**[Filecoin.js](https://github.com/filecoin-shipyard/filecoin.js)** is a grant-funded attempt at a higher-level, wallet-focused API aiming toward users familiar with Ethers.js. It is very early-stage and has been put on hold due to lack of adoption, interest and practical hurdles regarding the wallet & API interaction.
+  * This project should not be used as it is and we need to make this clear in documentation.
+  * It needs more planning and scoping before the work is continued—better integration with other tooling, including js-lotus-client, would be preferable.
+  * The Ethers.js user-market is an important one and we should revisit prioritisation when we have improved some of the Filecoin fundamentals that are of interest to the JavaScript Dapp audience.
+
+**filecoin-shipyard JavaScript Example Apps** include a suite of grant-funded example applications built on pre-launch Filecoin, using pre-launch assumptions about what will be possible, practical and reasonable. They include **two separate NFT marketplace example applications**. Most of the examples are not what we want to be emphasising as ideal workflows for Filecoin with our post-launch understanding, yet.
+  * The example applications are all out of date and use old libraries and toolchains (including beta versions of Textile dev tools).
+  * As part of this project we had them removed from docs.filecoin.io where they were still listed as go-to examples of how to build on Filecoin.
+  * [filecoin-network-inspector](https://github.com/filecoin-shipyard/filecoin-network-inspector) has merit as a project to revive and demonstrate js-lotus-client's capabilities.
+  * [js-lotus-client-workshop](https://github.com/filecoin-shipyard/js-lotus-client-workshop) was Jim Pick's Workshopper / Protoschool style teaching workshop for js-lotus-client. It has some excellent material that should be revived, finished, kept updated and promoted.
+
+**go-filecoin Projects** in filecoin-shipyard include at least 10 exaple apps and JavaScript API libraries built for go-filecoin - now Venus. They have not been kept up to date, and their documentation does not make clear what they are or that they should not be used!
+  * We should ask the Venus team whether they would like to take responsibility for any of these projects, and for those that are abandonware we should archive them and make their status clear in their READMEs.
+
+**[Glif.io and its libraries](https://github.com/glifio)** provide some excellent example code for interacting with Filecoin and the Lotus API. It's actively used and kept updated because it's critical infrastructure for most FIL holders. It would be worth exploring how we can highlight, improve, or even replace some of the highest value libraries:
+  * [@glif/filecoin-number](https://github.com/glifio/modules/tree/primary/packages/filecoin-number) - a FIL units converter
+  * [@glif/filecoin-address](https://github.com/glifio/modules/tree/primary/packages/filecoin-address) - a JavaScript sister to go-address.
+  * [@glif/filecoin-message-confirmer](https://github.com/glifio/modules/tree/primary/packages/filecoin-message-confirmer) - confirms messages are on-chain, has some API concerns around the duplicate message problems exchanges had recently with `StateSearchMsg` and friends.
+  * <https://github.com/glifio/wallet> has potential to be a great example app as it uses a popular JavaScript application stack. It would need investment in documentation and approachability to make this so.
+
+**[Zondax/filecoin-signing-tools](https://github.com/zondax/filecoin-signing-tools)** is one of the most heavily used JavaScript libraries dedicated to Filecoin and are used to sign messages prior to submission to chain. Users include Glif.io, Ceramic, MetaMask FilSnap and Filecoin.js. It's both an important tool for our ecosystem and deserves investment and improvement but also a potentially excellent example library for understanding the basics of dealing with Filecoin in JavaScript.
+  * We should explore ways to invest in improving this project for use and to potentially make it an example library we highlight in our documentation.
+  * The state of WASM vs pure-JS implementation of crypto appears incomplete, there may be work to do here to streamline it for the various use-cases.
+
 
 ## Lotus RPC API
 
@@ -220,8 +262,6 @@ Last updated: 1 Jul 2020
 
 We should consider updating the documentation for these examples to suggest their state as operational against pre-mainnet Filecoin and relying on possibly outdated components. ~~They should also be removed from docs.filecoin.io until we can update them and ensure they demonstrate ideal working conditions for Filecoin.~~ (They were removed during the compilation of this report).
 
-***(POSSIBLE PROJECT)*** [filecoin-shipyard/filecoin-network-inspector](https://github.com/filecoin-shipyard/filecoin-network-inspector) may be the example application most worth focusing on updating since it doesn't rely on small deals and exercises basic parts of the Lotus RPC.
-
 ### https://github.com/filecoin-shipyard/meme-marketplace
 
 > NFT example app using Textile Hub
@@ -265,6 +305,8 @@ https://docs.filecoin.io/build/examples/network-inspector/overview/
 Relies on https://github.com/textileio/lotus-devnet which is not updated since 13 Nov 2020. Does it still work?
 
 Last updated: 13 Jul 2020
+
+***(POSSIBLE PROJECT)*** This may be the example application most worth focusing on updating since it doesn't rely on small deals and exercises basic parts of the Lotus RPC.
 
 ### https://github.com/filecoin-shipyard/js-lotus-client-workshop
 
@@ -485,11 +527,13 @@ It includes libraries in `Rust Native Library`, `WASM Library` and `JSON RPC` wi
 
 #### Overall Recommendations
 
-- The [documentation site](https://zondax.ch/updating-documentation) as the main source for docs should be available. It has been on maintenance, which makes it difficult to understand what methods are supported unless we check the code/tests and this should be handled.
+**(POSSIBLE PROJECT)** Recommendations below would require investment with Zondax, or adoption by filecoin-shipyard, or other. Improvement of this project would be worthwhile as an example library but also because it serves an important purpose for the JavaScript library ecosystem.
+
+- The [documentation site](https://zondax.ch/updating-documentation) linked as the main source for docs should be available. It has been on maintenance, which makes it difficult to understand what methods are supported unless we check the code/tests and this should be handled.
 - Clarify WASM library status per above findings
 - Friction onboarding
   - Several examples are provided, but some are not easy to run and do not have instructions. It would be extremely valuable for the community to have instructions for running this examples together with some educational content regarding what are the use cases for each and what happens under the hood.
-- Run the WASM code in the browser and compare the bundle size with the pure JS implementation
+- **(TODO TASK)** Run the WASM code in the browser and compare the bundle size with the pure JS implementation, learnings would be helpful for our own crypto stack and may suggest improvements for Zondax.
 
 ### https://github.com/mgoelzer/zondax-pch-demo
 
